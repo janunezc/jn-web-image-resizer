@@ -1,0 +1,29 @@
+{
+  "name": "jn-web-image-resizer",
+  "version": "0.0.1",
+  "description": "https://github.com/janunezc/jn-web-image-resizer",
+  "main": "index.js",
+  "bin": {
+    "jn-web-image-resizer": "./src/index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/janunezc/jn-web-image-resizer.git"
+  },
+  "keywords": [
+    "image",
+    "resize",
+    "folder",
+    "recursive",
+    "utility"
+  ],
+  "author": "Jose Nunez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/janunezc/jn-web-image-resizer/issues"
+  },
+  "homepage": "https://github.com/janunezc/jn-web-image-resizer#readme"
+}

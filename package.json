@@ -1,6 +1,6 @@
 {
   "name": "jn-web-image-resizer",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "https://github.com/janunezc/jn-web-image-resizer",
   "main": "index.js",
   "bin": {

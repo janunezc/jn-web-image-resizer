@@ -1,35 +1,32 @@
 {
-  "name": "jn-web-image-resizer",
-  "version": "0.0.3",
-  "description": "https://github.com/janunezc/jn-web-image-resizer",
-  "main": "index.js",
-  "bin": {
-    "jn-web-image-resizer": "./src/index.js"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/janunezc/jn-web-image-resizer.git"
-  },
-  "keywords": [
-    "image",
-    "resize",
-    "folder",
-    "recursive",
-    "utility"
-  ],
-  "author": "Jose Nunez",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/janunezc/jn-web-image-resizer/issues"
-  },
-  "homepage": "https://github.com/janunezc/jn-web-image-resizer#readme",
-  "dependencies": {
-    "fs": "^0.0.1-security",
-    "path": "^0.12.7",
-    "sharp": "^0.33.5",
-    "yargs": "^17.7.2"
-  }
+    "name": "jn-web-image-resizer",
+    "version": "1.0.0",
+    "description": "https://github.com/janunezc/jn-web-image-resizer",
+    "main": "index.js",
+    "bin": {
+        "jn-web-image-resizer": "./src/index.js"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/janunezc/jn-web-image-resizer.git"
+    },
+    "keywords": [
+        "image",
+        "resize",
+        "folder",
+        "recursive",
+        "utility"
+    ],
+    "author": "Jose Nunez",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/janunezc/jn-web-image-resizer/issues"
+    },
+    "homepage": "https://github.com/janunezc/jn-web-image-resizer#readme",
+    "dependencies": {
+        "sharp": "^0.33.5"
+    }
 }

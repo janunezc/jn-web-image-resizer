@@ -4,52 +4,70 @@ const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
 
-const DEFAULT_MAX_WIDTH = 1920;
-const DEFAULT_MAX_HEIGHT = 1080;
+const targetSize = 1024 * 1024 * 2; // Images larger than 2MB will be resized
+const maxDimension = 1920; // Maximum width or height of the image
 
-const scanAndResizeImages = async (dir) => {
-    const files = fs.readdirSync(dir);
-
-    for (const file of files) {
-        const fullPath = path.join(dir, file);
-        const stats = fs.statSync(fullPath);
-
-        if (stats.isDirectory()) {
-            // Recurse into subdirectories
-            await scanAndResizeImages(fullPath);
-        } else if (/\.(jpe?g|png|webp)$/i.test(file)) {
-            try {
-                const { width, height } = await sharp(fullPath).metadata();
-
-                if (width > DEFAULT_MAX_WIDTH || height > DEFAULT_MAX_HEIGHT) {
-                    console.log(`Resizing: ${fullPath}`);
-                    await sharp(fullPath)
-                        .resize({
-                            width: DEFAULT_MAX_WIDTH,
-                            height: DEFAULT_MAX_HEIGHT,
-                            fit: 'inside',
-                        })
-                        .toBuffer()
-                        .then((data) => fs.writeFileSync(fullPath, data)); // Overwrite original
-                    console.log(`Resized and saved: ${fullPath}`);
-                } else {
-                    console.log(`Skipping (already optimized): ${fullPath}`);
-                }
-            } catch (error) {
-                console.error(`Error processing file ${fullPath}:`, error.message);
-            }
+// Function to scan directory recursively and process images
+function scanDirectory(directory) {
+    console.log("Scanning Directory...", directory);
+    fs.readdir(directory, {withFileTypes: true}, (err, entries) => {
+        if (err) {
+            console.error('Error reading directory:', directory, err);
+            return;
         }
-    }
-};
 
-(async () => {
-    const startDir = process.cwd(); // Use the current directory as the root
-    console.log(`Scanning and resizing images in: ${startDir}`);
+        entries.forEach(entry => {
+            const fullPath = path.join(directory, entry.name);
+            if (entry.isDirectory()) {
+                scanDirectory(fullPath);
+            } else if (isImageFile(entry.name)) {
+                console.log("Processing image...", fullPath);
+                processImage(fullPath);
+            }
+        });
+    });
+}
 
-    try {
-        await scanAndResizeImages(startDir);
-        console.log('All images processed successfully!');
-    } catch (error) {
-        console.error('An error occurred:', error.message);
-    }
-})();
+// Check if the file is an image
+function isImageFile(filename) {
+    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
+    return imageExtensions.some(ext => filename.toLowerCase().endsWith(ext));
+}
+
+// Process an image: check its size and compress if necessary
+function processImage(filePath) {
+    fs.stat(filePath, (err, stats) => {
+        if (err) {
+            console.error('Error accessing file:', filePath, err);
+            return;
+        }
+
+        if (stats.size > targetSize) {
+            compressImage(filePath);
+        } else {
+            console.log('No compression needed:', filePath);
+        }
+    });
+}
+
+// Compress the image using Sharp
+function compressImage(filePath) {
+    sharp(filePath)
+            .resize({width: maxDimension, height: maxDimension, fit: 'inside'})
+            .toBuffer()
+            .then(data => {
+                fs.writeFile(filePath, data, err => {
+                    if (err) {
+                        console.error('Error writing file:', filePath, err);
+                    } else {
+                        console.log('Compressed and saved:', filePath);
+                    }
+                });
+            })
+            .catch(err => {
+                console.error('Error processing image:', filePath, err);
+            });
+}
+
+// Start scanning from the current directory
+scanDirectory(process.cwd());

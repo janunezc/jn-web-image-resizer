@@ -130,3 +130,4 @@ dist
 .pnp.*
 /nbproject/private/
 /nbproject/
+/package-lock.json
